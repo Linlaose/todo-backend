@@ -7,7 +7,9 @@ const db = require("./app/model");
 
 db.sequelize.sync();
 
-require("./app/routes/todo.routes")(app);
+const todos = require("./app/routes/todo.routes");
+
+app.use("/todos", todos);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

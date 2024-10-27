@@ -1,4 +1,3 @@
-// const { randomUUID } = require("crypto");
 const db = require("../model");
 const Todos = db.todos;
 
@@ -15,6 +14,20 @@ exports.addTodo = async (req, res) => {
     const todo = await Todos.create(req.body);
     res.status(200).json({ data: todo });
   } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
+exports.updateTodo = async (req, res) => {
+  try {
+    if (Object.keys(req.body).length === 0) {
+      res.status(400).json({ message: "Body is empty" });
+      return;
+    }
+    const todo = await Todos.findOne({ where: { id: req.params.id } });
+    await todo.update({ ...req.body });
+    res.status(200).json({ data: todo });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: error });
   }
 };
