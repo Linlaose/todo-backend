@@ -31,3 +31,16 @@ exports.updateTodo = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
+exports.deleteTodo = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      res.status(400).json({ message: "id is required" });
+      return;
+    }
+    await Todos.destroy({ where: { id: req.params.id } });
+    res.status(200).json({ message: "Todo deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error });
+  }
+};
