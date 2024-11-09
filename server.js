@@ -1,8 +1,15 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
-app.use(express.json());
+const corsOptions = {
+  origin: ["http://localhost:5173"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
+app.use(express.json());
+app.use(cors(corsOptions));
 const db = require("./app/model");
 
 db.sequelize.sync();
