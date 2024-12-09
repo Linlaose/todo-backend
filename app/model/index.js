@@ -6,7 +6,6 @@ const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   pool: config.pool,
   define: {
     freezeTableName: true,
-    timestamps: false,
   },
 });
 const db = {};

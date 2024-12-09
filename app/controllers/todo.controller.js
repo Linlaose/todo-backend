@@ -3,6 +3,9 @@ const Todos = db.todos;
 
 exports.getAll = async (req, res) => {
   try {
+    const { query } = req;
+    const { order_by } = query;
+    console.log("query", order_by);
     const todos = await Todos.findAll();
     res
       .status(200)
