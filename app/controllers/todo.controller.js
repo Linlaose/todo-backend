@@ -3,12 +3,18 @@ const Todos = db.todos;
 
 exports.getAll = async (req, res) => {
   try {
-    const order_by = req?.query.order_by;
+    const { order_by, ...query } = req.query;
+    const where = Object.entries(query).reduce((acc, [key, value]) => {
+      if (value === "true") return { ...acc, [key]: true };
+      if (value === "false") return { ...acc, [key]: false };
+      return { ...acc, [key]: value };
+    }, {});
     if (!order_by)
       return res.status(400).json({ message: "order_by is required" });
     const [column, direction] = order_by.trim().split(" ");
     const todos = await Todos.findAll({
       order: [[column, direction.toUpperCase()]],
+      where,
     });
     res
       .status(200)
