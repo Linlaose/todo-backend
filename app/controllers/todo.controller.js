@@ -3,7 +3,7 @@ const Todos = db.todos;
 
 exports.getAll = async (req, res) => {
   try {
-    const { order_by, ...query } = req.query;
+    const { order_by, page = 1, limit = 5, ...query } = req.query;
     const where = Object.entries(query).reduce((acc, [key, value]) => {
       if (value === "true") return { ...acc, [key]: true };
       if (value === "false") return { ...acc, [key]: false };
@@ -15,10 +15,13 @@ exports.getAll = async (req, res) => {
     const todos = await Todos.findAll({
       order: [[column, direction.toUpperCase()]],
       where,
+      offset: (Number(page) - 1) * Number(limit),
+      limit: Number(limit),
     });
+    const total = await Todos.count({ where });
     res
       .status(200)
-      .json({ message: "Todos fetched successfully", data: todos });
+      .json({ message: "Todos fetched successfully", total, data: todos });
   } catch (error) {
     res.status(500).json({ message: error });
   }
