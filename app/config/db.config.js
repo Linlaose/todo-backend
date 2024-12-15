@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   HOST: "localhost",
   USER: "root",
   PASSWORD: "2u4u h4m/4mysql",

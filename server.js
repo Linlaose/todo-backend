@@ -1,5 +1,5 @@
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
 const app = express();
 
 const corsOptions = {
@@ -10,11 +10,11 @@ const corsOptions = {
 
 app.use(express.json());
 app.use(cors(corsOptions));
-const db = require("./app/model");
+import db from "./app/model/index.js";
 
 db.sequelize.sync();
 
-const todos = require("./app/routes/todo.routes");
+import todos from "./app/routes/todo.routes.js";
 
 app.use("/api/v1/todos", todos);
 

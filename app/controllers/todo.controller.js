@@ -1,7 +1,7 @@
-const db = require("../model");
+import db from "../model/index.js";
 const Todos = db.todos;
 
-exports.getAll = async (req, res) => {
+export const getAll = async (req, res) => {
   try {
     const { order_by, page = 1, limit = 5, ...query } = req.query;
     const where = Object.entries(query).reduce((acc, [key, value]) => {
@@ -26,7 +26,7 @@ exports.getAll = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
-exports.addTodo = async (req, res) => {
+export const addTodo = async (req, res) => {
   try {
     const todo = await Todos.create(req.body);
     res.status(200).json({ message: "Todo created successfully", data: todo });
@@ -34,7 +34,7 @@ exports.addTodo = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
-exports.updateTodo = async (req, res) => {
+export const updateTodo = async (req, res) => {
   try {
     if (Object.keys(req.body).length === 0) {
       res.status(400).json({ message: "Body is empty" });
@@ -48,7 +48,7 @@ exports.updateTodo = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
-exports.deleteTodo = async (req, res) => {
+export const deleteTodo = async (req, res) => {
   try {
     if (!req.params.id) {
       res.status(400).json({ message: "id is required" });

@@ -1,5 +1,5 @@
-const { faker } = require("@faker-js/faker");
-const db = require("../app/model");
+import { faker } from "@faker-js/faker";
+import db from "../app/model";
 const Todos = db.todos;
 
 const seedTodos = async () => {
